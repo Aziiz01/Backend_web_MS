@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="OffreService" />
         <module name="ApiGateway" />
+        <module name="eureka" />
         <module name="Commentaire-service" />
       </profile>
     </annotationProcessing>
