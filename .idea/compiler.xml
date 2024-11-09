@@ -10,6 +10,7 @@
         <module name="OffreService" />
         <module name="ApiGateway" />
         <module name="eureka" />
+        <module name="AvisService" />
         <module name="Commentaire-service" />
       </profile>
     </annotationProcessing>
@@ -21,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApiGateway" options="-parameters" />
+      <module name="AvisService" options="-parameters" />
       <module name="Commentaire-service" options="-parameters" />
       <module name="OffreService" options="-parameters" />
       <module name="eureka" options="-parameters" />
