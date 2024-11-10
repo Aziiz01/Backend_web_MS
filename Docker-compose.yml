@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: bidding
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - bidding_default
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"      # RabbitMQ default port
+      - "15672:15672"    # RabbitMQ management UI
+    networks:
+      - bidding_default
+
+  commentaire-service:
+    build:
+      context: ./commentaireService
+    container_name: commentaire-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - mysql
+      - eureka
+      - rabbitmq
+    ports:
+      - "8082:8082"
+    networks:
+      - bidding_default
+
+  offre-service:
+    build:
+      context: ./offreService
+    container_name: offre-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - mysql
+      - eureka
+      - rabbitmq
+    ports:
+      - "8083:8083"
+    networks:
+      - bidding_default
+
+  avis-service:
+    build:
+      context: ./avisService
+    container_name: avis-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - mysql
+      - eureka
+      - rabbitmq
+    ports:
+      - "8084:8084"
+    networks:
+      - bidding_default
+
+  api-gateway:
+    build:
+      context: ./apiGateway
+    container_name: api-gateway
+    depends_on:
+      - commentaire-service
+      - offre-service
+      - avis-service
+      - eureka
+    ports:
+      - "8080:8080"
+    networks:
+      - bidding_default
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+
+  eureka:
+    build:
+      context: ./eureka
+    container_name: eureka
+    depends_on:
+      - mysql
+    ports:
+      - "8761:8761"
+    networks:
+      - bidding_default
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+
+volumes:
+  mysql-data:
+
+networks:
+  bidding_default:
+    driver: bridge

@@ -1,10 +1,8 @@
 package com.esprit.AvisService.service;
 
-
 import com.esprit.AvisService.model.Avis;
 import com.esprit.AvisService.repository.AvisRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class AvisService implements IAvisService {
     @Override
     public Avis updateAvis(String id, Avis avisDetails) {
         Avis avis = avisRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Avis not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Avis not found with id: " + id));
 
         avis.setRating(avisDetails.getRating());
         avis.setComment(avisDetails.getComment());
@@ -34,14 +32,14 @@ public class AvisService implements IAvisService {
     @Override
     public void deleteAvis(String id) {
         Avis avis = avisRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Avis not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Avis not found with id: " + id));
         avisRepository.delete(avis);
     }
 
     @Override
     public Avis getAvisById(String id) {
         return avisRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Avis not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Avis not found with id: " + id));
     }
 
     @Override
@@ -59,4 +57,3 @@ public class AvisService implements IAvisService {
         return avisRepository.findByUserId(userId);
     }
 }
-
