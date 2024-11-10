@@ -1,0 +1,10 @@
+com\esprit\AvisService\controller\AvisController.class
+com\esprit\AvisService\service\IAvisService.class
+com\esprit\AvisService\model\Avis.class
+com\esprit\AvisService\Producer\RabbitMQProducer.class
+com\esprit\AvisService\service\AvisService.class
+Config\RabbitMQConfig.class
+com\esprit\AvisService\AvisServiceApplication.class
+com\esprit\AvisService\model\Avis$AvisBuilder.class
+com\esprit\AvisService\repository\AvisRepository.class
+com\esprit\AvisService\Consumer\RabbitMQConsumer.class

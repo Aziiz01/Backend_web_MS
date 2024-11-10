@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: bidding
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - bidding_default  # Ensure this matches the network name from the docker network inspect
+
+  commentaire-service:
+    build:
+      context: ./commentaireService
+    container_name: commentaire-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka
+    ports:
+      - "8082:8082"
+    networks:
+      - bidding_default  # Ensure this matches the network name
+    extra_hosts:
+      - "keycloak:host-gateway"
+
+  offre-service:
+    build:
+      context: ./offreService
+    container_name: offre-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka
+    ports:
+      - "8083:8083"
+    networks:
+      - bidding_default  # Ensure this matches the network name
+    extra_hosts:
+      - "keycloak:host-gateway"  # Ensures keycloak resolves correctly
+
+  avis-service:
+    build:
+      context: ./avisService
+    container_name: avis-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka
+    ports:
+      - "8084:8084"
+    networks:
+      - bidding_default  # Ensure this matches the network name
+    extra_hosts:
+      - "keycloak:host-gateway"  # Ensures keycloak resolves correctly
+
+  api-gateway:
+    build:
+      context: ./apiGateway
+    container_name: api-gateway
+    depends_on:
+      - commentaire-service
+      - offre-service
+      - avis-service
+      - eureka
+    ports:
+      - "8080:8080"
+    networks:
+      - bidding_default  # Ensure this matches the network name
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+
+  eureka:
+    build:
+      context: ./eureka
+    container_name: eureka
+    depends_on:
+      - mysql
+    ports:
+      - "8761:8761"
+    networks:
+      - bidding_default  # Ensure this matches the network name
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: mysql
+      DB_ADDR: mysql-db
+      DB_DATABASE: bidding
+      DB_USER: root
+      DB_PASSWORD:
+      JDBC_PARAMS: "useSSL=false&allowPublicKeyRetrieval=true"
+      KEYCLOAK_FRONTEND_URL: http://localhost:8081
+      PROXY_ADDRESS_FORWARDING: "true"
+    ports:
+      - "8081:8080"
+    networks:
+      - bidding_default
+    depends_on:
+      - eureka
+    command: [ "start-dev" ]
+
+
+volumes:
+  mysql-data:
+
+networks:
+  bidding_default:
+    driver: bridge  # Ensure this matches the network name

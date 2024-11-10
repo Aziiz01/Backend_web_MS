@@ -1,0 +1,9 @@
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\AvisServiceApplication.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\Consumer\RabbitMQConsumer.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\controller\AvisController.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\model\Avis.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\Producer\RabbitMQProducer.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\repository\AvisRepository.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\service\AvisService.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\com\esprit\AvisService\service\IAvisService.java
+C:\Users\21650\Desktop\bidding\AvisService\src\main\java\Config\RabbitMQConfig.java
