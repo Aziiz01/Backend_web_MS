@@ -1,9 +1,9 @@
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\AvisServiceApplication.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\Config\RabbitMQConfig.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\Consumer\RabbitMQConsumer.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\controller\AvisController.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\model\Avis.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\Producer\RabbitMQProducer.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\repository\AvisRepository.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\service\AvisService.java
-C:\Users\Aziz\Documents\bidding_MS\bidding\AvisService\src\main\java\com\esprit\AvisService\service\IAvisService.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\AvisServiceApplication.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\Config\RabbitMQConfig.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\Consumer\RabbitMQConsumer.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\controller\AvisController.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\model\Avis.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\Producer\RabbitMQProducer.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\repository\AvisRepository.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\service\AvisService.java
+C:\Users\21650\Downloads\bidding (1)\bidding\AvisService\src\main\java\com\esprit\AvisService\service\IAvisService.java
