@@ -1,6 +1,7 @@
 package com.esprit.offreService.Controller;
 
 import com.esprit.offreService.Producer.RabbitMQProducer;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/offers")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OfferController {
     private RabbitMQProducer rabbitMQProducer;
 
@@ -26,10 +28,11 @@ public class OfferController {
     private OfferService offerService;
 
     @GetMapping
-    public List<Offer> getAllOffers() {
+    public ResponseEntity<List<Offer>> getAllOffers(HttpServletResponse response) {
         rabbitMQProducer.sendMessage("All offers fetched");
-        return offerService.getAllOffers();
+        return ResponseEntity.ok(offerService.getAllOffers());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Offer> getOfferById(@PathVariable Long id) {

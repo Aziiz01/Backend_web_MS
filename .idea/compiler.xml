@@ -8,13 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OffreService" />
-        <module name="ApiGateway" />
+        <module name="Echere-service" />
         <module name="eureka" />
         <module name="AvisService" />
+        <module name="Produits" />
+        <module name="ApiGateway" />
+        <module name="GestionPayement" />
         <module name="Commentaire-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="encheremicroservice" target="17" />
       <module name="eureka (1)" target="17" />
       <module name="eureka (2)" target="17" />
     </bytecodeTargetLevel>
@@ -24,7 +28,11 @@
       <module name="ApiGateway" options="-parameters" />
       <module name="AvisService" options="-parameters" />
       <module name="Commentaire-service" options="-parameters" />
+      <module name="Echere-service" options="-parameters" />
+      <module name="GestionPayement" options="-parameters" />
       <module name="OffreService" options="-parameters" />
+      <module name="Produits" options="-parameters" />
+      <module name="encheremicroservice" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="eureka (1)" options="-parameters" />
       <module name="eureka (2)" options="-parameters" />

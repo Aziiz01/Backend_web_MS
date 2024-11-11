@@ -29,6 +29,7 @@ services:
   commentaire-service:
     build:
       context: ./commentaireService
+    image: aziz0001/commentaire-service:latest
     container_name: commentaire-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
@@ -49,9 +50,62 @@ services:
     networks:
       - bidding_default
 
+  payment-service:
+    build:
+      context: ./GestionPayement
+    image: aziz0001/payment-service:latest
+    container_name: payment-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka
+    ports:
+      - "8087:8087"
+    networks:
+      - bidding_default
+
+  produit-service:
+    build:
+      context: ./produits
+    image: aziz0001/produit-service:latest
+    container_name: produit-service
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672  
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - eureka
+      - rabbitmq
+    ports:
+      - "8085:8085"
+    networks:
+      - bidding_default
+
+  enchere-service:
+    build:
+      context: ./encheremicroservice
+    image: aziz0001/enchere-service:latest
+    container_name: enchere-service
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka:8761/eureka/
+    depends_on:
+      - eureka
+    ports:
+      - "8086:8086"
+    networks:
+      - bidding_default
+
   offre-service:
     build:
       context: ./offreService
+    image: aziz0001/offre-service:latest
     container_name: offre-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
@@ -75,6 +129,7 @@ services:
   avis-service:
     build:
       context: ./avisService
+    image: aziz0001/avis-service:latest
     container_name: avis-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bidding
@@ -98,12 +153,15 @@ services:
   api-gateway:
     build:
       context: ./apiGateway
+    image: aziz0001/api-gateway:latest
     container_name: api-gateway
     depends_on:
       - commentaire-service
       - offre-service
       - avis-service
       - eureka
+      - produit-service
+      - enchere-service
     ports:
       - "8080:8080"
     networks:
@@ -114,6 +172,7 @@ services:
   eureka:
     build:
       context: ./eureka
+    image: aziz0001/eureka:latest
     container_name: eureka
     depends_on:
       - mysql

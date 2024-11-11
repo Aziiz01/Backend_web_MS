@@ -6,7 +6,10 @@
     <file url="file://$PROJECT_DIR$/AvisService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AvisService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CommentaireService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GestionPayement/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OffreService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Produits/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/encheremicroservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka/src/main/java" charset="UTF-8" />
   </component>
 </project>

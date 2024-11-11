@@ -15,6 +15,11 @@
         <module>CommentaireService</module>
         <module>Eureka</module>
         <module>OffreService</module>
+        <module>Produits</module>
+        <module>encheremicroservice</module>
+        <module>GestionPayement</module>
+
+
     </modules>
 
     <properties>

@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/avis")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AvisController {
 
     private final IAvisService avisService;
