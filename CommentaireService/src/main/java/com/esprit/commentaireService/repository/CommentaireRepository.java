@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentaireRepository extends JpaRepository<Commentaire, String> {
-    // Additional query methods if needed
+    List<Commentaire> findByOfferId(Long offerId);
 }

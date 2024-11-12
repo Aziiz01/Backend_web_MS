@@ -12,9 +12,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/commentaires")
 public class CommentaireController {
-
+    private final OffreServiceClient offreServiceClient;
     private final IcommentaireService commentaireService;
+    @Autowired
+    public CommentaireService(OffreServiceClient offreServiceClient) {
+        this.offreServiceClient = offreServiceClient;
+    }
 
+    public List<Comment> getCommentsByOfferId(Long offerId) {
+        return offreServiceClient.getCommentsByOfferId(offerId);
+    }
     @Autowired
     public CommentaireController(RabbitMQProducer rabbitMQProducer, IcommentaireService commentaireService) {
         this.commentaireService = commentaireService;
@@ -60,4 +67,10 @@ public class CommentaireController {
         rabbitMQProducer.sendMessage("commentaire deleted with id: " + id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/offer/{offerId}")
+public ResponseEntity<List<CommentaireDTO>> getCommentairesByOfferId(@PathVariable Long offerId) {
+    List<CommentaireDTO> commentaires = commentaireService.getCommentairesByOfferId(offerId);
+    return ResponseEntity.ok(commentaires);
+}
+
 }

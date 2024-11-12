@@ -10,9 +10,13 @@ import java.util.Optional;
 
 @Service
 public class CommentaireImp implements IcommentaireService {
-
     private final CommentaireRepository commentaireRepository;
-
+    public List<CommentaireDTO> getCommentairesByOfferId(Long offerId) {
+        List<Commentaire> commentaires = commentaireRepository.findByOfferId(offerId);
+        return commentaires.stream()
+                .map(commentaire -> new CommentaireDTO(commentaire.getId(), commentaire.getContent()))
+                .collect(Collectors.toList());
+    }
     @Autowired
     public CommentaireImp(CommentaireRepository commentaireRepository) {
         this.commentaireRepository = commentaireRepository;

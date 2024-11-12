@@ -2,12 +2,13 @@ package com.esprit.offreService.Controller;
 
 import com.esprit.offreService.Producer.RabbitMQProducer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.esprit.offreService.Client.CommentaireClient;
 import com.esprit.offreService.Entities.Offer;
 import com.esprit.offreService.Service.OfferService;
+import com.esprit.offreService.dto.CommentaireDTO;
 
 import java.util.List;
 
@@ -15,15 +16,9 @@ import java.util.List;
 @RequestMapping("/api/offers")
 @RequiredArgsConstructor
 public class OfferController {
-    private RabbitMQProducer rabbitMQProducer;
-
-    @Autowired
-    public OfferController(RabbitMQProducer rabbitMQProducer) {
-        this.rabbitMQProducer = rabbitMQProducer;
-    }
-
-    @Autowired
-    private OfferService offerService;
+    private final RabbitMQProducer rabbitMQProducer;
+    private final OfferService offerService;
+    private final CommentaireClient commentaireClient;
 
     @GetMapping
     public List<Offer> getAllOffers() {
@@ -49,7 +44,7 @@ public class OfferController {
         Offer existingOffer = offerService.getOfferById(id);
         rabbitMQProducer.sendMessage("Offre updated with id: " + id);
         if (existingOffer != null) {
-            updatedOffer.setId(id); // Assurez-vous de conserver l'ID
+            updatedOffer.setId(id);
             return ResponseEntity.ok(offerService.saveOffer(updatedOffer));
         } else {
             return ResponseEntity.notFound().build();
@@ -62,4 +57,10 @@ public class OfferController {
         rabbitMQProducer.sendMessage("Offre deleted with id: " + id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/api/offers/{offerId}/comments")
+public ResponseEntity<List<CommentaireDTO>> getCommentairesByOfferId(@PathVariable Long offerId) {
+    List<CommentaireDTO> commentaires = commentaireClient.getCommentairesByOfferId(offerId);
+    return ResponseEntity.ok(commentaires);
+}
+
 }

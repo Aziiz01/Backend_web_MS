@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s  # Intervalle de scrutation
+
+scrape_configs:
+  - job_name: 'spring-boot-microservices'
+    static_configs:
+      - targets: ['offre-service:8083', 'avis-service:8084', 'api-gateway:8080', 'eureka:8761', 'commentaire-service:8082']
