@@ -1,0 +1,43 @@
+services:
+  # Service pour l'application Spring Boot
+  gestionpayement:
+    image: gestionpayement-0.0.1  # L'image de votre application que vous avez créée
+    build:
+      context: .                  # Indique le répertoire où se trouve le Dockerfile de votre application
+    ports:
+      - "8082:8082"                # Mappe le port 8082 de votre machine locale vers le port du conteneur (Spring Boot)
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://gestionpayement-db:3306/gestionpayement?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+    depends_on:
+      - gestionpayement-db          # L'application dépend de MySQL
+    networks:
+      - gestionpayement-network     # Utilisation d'un réseau Docker commun
+
+  # Service pour la base de données MySQL
+  gestionpayement-db:
+    image: mysql:8                  # Image officielle de MySQL
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"    # Autorise un mot de passe vide pour l'utilisateur root
+      MYSQL_DATABASE: gestionpayement
+    ports:
+      - "3306:3306"                 # Expose le port 3306 de MySQL pour y accéder depuis la machine locale
+    volumes:
+      - mysql-data:/var/lib/mysql   # Persistance des données MySQL
+    networks:
+      - gestionpayement-network     # Utilisation du même réseau
+    restart: always                 # Redémarre le conteneur en cas de défaillance
+
+# Définition du volume pour persister les données MySQL
+volumes:
+  mysql-data:
+
+# Définition du réseau Docker
+networks:
+  gestionpayement-network:
+    driver: bridge
