@@ -6,7 +6,7 @@
 
 ## 🎓 Project Overview
 
-**backend_ms** is an ambitious academic project that simulates a real-world backend architecture based on **microservices**. It demonstrates how multiple services can work together using modern tools and best practices in cloud-native backend development and DevOps.
+**backend_ms** is an ambitious freelance project that simulates a real-world backend architecture based on **microservices**. It demonstrates how multiple services can work together using modern tools and best practices in cloud-native backend development and DevOps.
 
 This project provides a hands-on example of building, deploying, and monitoring distributed services with high cohesion and scalability.
 
